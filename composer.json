@@ -1,0 +1,27 @@
+{
+  "name": "kairet/kairet-cms",
+  "description": "PHP based CMS backend",
+  "authors": [
+    {
+      "name": "Fabian Lupa",
+      "email": "f.lupa@flaiker.com"
+    },
+    {
+      "name": "Mario Schierhoff",
+      "email": "DerKaito99@gmail.com"
+    },
+    {
+      "name": "Paretos"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "KCMS\\": "app/classes"
+    },
+    "files": [
+      "Config.php"
+    ]
+  },
+  "require": {},
+  "require-dev": {}
+}
