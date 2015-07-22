@@ -17,6 +17,9 @@ before_script:
 script:
   - vendor/bin/phpunit --verbose --coverage-text
 
+after_script:
+  - php vendor/bin/coveralls -v
+
 before_deploy:
   - composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
   - zip -r kairet-cms-$TRAVIS_TAG.zip ./ -x *.git*
