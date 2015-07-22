@@ -1,2 +1,2 @@
-# kairet-cms [![Build Status](https://travis-ci.org/kairet/kairet-cms.svg?branch=master)](https://travis-ci.org/kairet/kairet-cms) [![StyleCI](https://styleci.io/repos/39338894/shield)](https://styleci.io/repos/39338894)
+# kairet-cms [![Build Status](https://travis-ci.org/kairet/kairet-cms.svg?branch=master)](https://travis-ci.org/kairet/kairet-cms) [![Coverage Status](https://coveralls.io/repos/kairet/kairet-cms/badge.svg?branch=master&service=github)](https://coveralls.io/github/kairet/kairet-cms?branch=master) [![StyleCI](https://styleci.io/repos/39338894/shield)](https://styleci.io/repos/39338894)
 PHP based CMS backend
