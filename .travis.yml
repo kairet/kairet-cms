@@ -9,6 +9,10 @@ cache:
    directories:
      - $HOME/.composer/cache
 
+notifications:
+  webhooks:
+    - https://coveralls.io/webhook?repo_token=$COVERALLS_TOKEN
+
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
@@ -16,6 +20,9 @@ before_script:
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text
+
+after_script:
+  - php vendor/bin/coveralls -v
 
 before_deploy:
   - composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
