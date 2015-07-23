@@ -182,11 +182,27 @@ class User
     }
 
     /**
+     * @param DateTime $createdDate
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
+    }
+
+    /**
      * @return DateTime
      */
     public function getEditedDate()
     {
         return $this->editedDate;
+    }
+
+    /**
+     * @param DateTime $editedDate
+     */
+    public function setEditedDate($editedDate)
+    {
+        $this->editedDate = $editedDate;
     }
 
     /**
@@ -198,11 +214,27 @@ class User
     }
 
     /**
+     * @param User $createdBy
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
      * @return User
      */
     public function getEditedBy()
     {
         return $this->editedBy;
+    }
+
+    /**
+     * @param User $editedBy
+     */
+    public function setEditedBy($editedBy)
+    {
+        $this->editedBy = $editedBy;
     }
 
     /**

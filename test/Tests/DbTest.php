@@ -41,6 +41,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
             $newUser->setLastName("User");
             $newUser->setEmail("test@test.com");
             $newUser->setPassword("12345");
+            $newUser->setCreatedDate(new \DateTime());
+            $newUser->setEditedDate(new \DateTime());
 
             $em->persist($newUser);
             $em->flush();
