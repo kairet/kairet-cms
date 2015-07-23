@@ -5,14 +5,21 @@ php:
   - 5.5
   - 5.6
 
+services:
+  - mysql
+
 cache:
    directories:
      - $HOME/.composer/cache
 
+before_install:
+  - mysql -e "create database IF NOT EXISTS kcms;" -uroot
+
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
-  - cp ./Config.template.php ./Config.php
+  - cp ./test/CiConfig.template.php ./Config.php
+  - ./vendor/bin/doctrine orm:schema-tool:create
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text
