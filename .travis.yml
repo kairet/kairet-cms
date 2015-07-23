@@ -18,7 +18,7 @@ before_install:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
-  - cp ./test/CiConfig.php ./Config.php
+  - cp ./test/CiConfig.template.php ./Config.php
   - ./vendor/bin/doctrine orm:schema-tool:create
 
 script:
