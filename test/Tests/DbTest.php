@@ -3,6 +3,7 @@ namespace KCMS\Tests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use KCMS\Api\ApiHelper;
 use KCMS\Database\DbService;
 use KCMS\Models\User;
 
@@ -68,5 +69,22 @@ class DbTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             $this->fail($e->getMessage());
         }
+    }
+
+    /**
+     * @depends testAddNewUser
+     */
+    public function testUserInfoApi()
+    {
+        $args = [
+            "api"  => "user",
+            "type" => "userinfo",
+            "id"   => "1"
+        ];
+        $apiHelper = new ApiHelper();
+        $apiHelper->handleRequest($args);
+        /** @var User $user */
+        $user = $apiHelper->getResponse();
+        $this->assertEquals(DbTest::TEST_USER_NAME, $user->getUsername());
     }
 }
