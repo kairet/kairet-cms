@@ -1,6 +1,7 @@
 <?php
 namespace KCMS\Tests;
 
+use KCMS\Validation\RegexBank;
 use KCMS\Validation\Rules\Number\NumberNegative;
 use KCMS\Validation\Rules\Number\NumberPositive;
 use KCMS\Validation\Rules\Number\NumberRange;
@@ -74,12 +75,11 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
         // StringRegex
         $mail = "test@test.com";
-        $mailPattern = '/^$|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/';
-        $this->assertTrue(ValidationHelper::isValid($mail, [new StringRegex($mailPattern)]));
+        $this->assertTrue(ValidationHelper::isValid($mail, [new StringRegex(RegexBank::EMAIL)]));
         $notAMail = "test@@test.com";
         $notAMail2 = "test@com";
-        $this->assertFalse(ValidationHelper::isValid($notAMail, [new StringRegex($mailPattern)]));
-        $this->assertFalse(ValidationHelper::isValid($notAMail2, [new StringRegex($mailPattern)]));
+        $this->assertFalse(ValidationHelper::isValid($notAMail, [new StringRegex(RegexBank::EMAIL)]));
+        $this->assertFalse(ValidationHelper::isValid($notAMail2, [new StringRegex(RegexBank::EMAIL)]));
     }
 
     public function testTypeValidation()
