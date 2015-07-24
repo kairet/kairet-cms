@@ -1,6 +1,9 @@
 <?php
 namespace KCMS\Tests;
 
+use KCMS\Validation\Rules\Number\NumberNegative;
+use KCMS\Validation\Rules\Number\NumberPositive;
+use KCMS\Validation\Rules\Number\NumberRange;
 use KCMS\Validation\Rules\String\StringLength;
 use KCMS\Validation\Rules\String\StringNotEmpty;
 use KCMS\Validation\Rules\Type\IsBool;
@@ -135,5 +138,60 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $notSet = new \DateTime();
         unset($notSet);
         $this->assertFalse(ValidationHelper::isValid($notSet, [new IsClass('\DateTime')]));
+    }
+
+    public function testNumberValidation()
+    {
+        // NumberNegative
+        $num = -1;
+        $this->assertTrue(ValidationHelper::isValid($num, [new NumberNegative()]));
+        $num2 = -1.00001212;
+        $this->assertTrue(ValidationHelper::isValid($num2, [new NumberNegative()]));
+        $num3 = 1.00001212;
+        $this->assertFalse(ValidationHelper::isValid($num3, [new NumberNegative()]));
+        $num4 = 1;
+        $this->assertFalse(ValidationHelper::isValid($num4, [new NumberNegative()]));
+        $string = "-1";
+        $this->assertTrue(ValidationHelper::isValid($string, [new NumberNegative()]));
+        $this->assertFalse(ValidationHelper::isValid($string, [new IsInt(), new NumberNegative()]));
+        $null = null;
+        $this->assertFalse(ValidationHelper::isValid($null, [new NumberNegative()]));
+        $notSet = "value";
+        unset($notSet);
+        $this->assertFalse(ValidationHelper::isValid($notSet, [new NumberNegative()]));
+
+        // NumberPositive
+        $num = -1;
+        $this->assertFalse(ValidationHelper::isValid($num, [new NumberPositive()]));
+        $num2 = -1.00001212;
+        $this->assertFalse(ValidationHelper::isValid($num2, [new NumberPositive()]));
+        $num3 = 1.00001212;
+        $this->assertTrue(ValidationHelper::isValid($num3, [new NumberPositive()]));
+        $num4 = 1;
+        $this->assertTrue(ValidationHelper::isValid($num4, [new NumberPositive()]));
+        $string = "1";
+        $this->assertTrue(ValidationHelper::isValid($string, [new NumberPositive()]));
+        $this->assertFalse(ValidationHelper::isValid($string, [new IsInt(), new NumberPositive()]));
+        $null = null;
+        $this->assertTrue(ValidationHelper::isValid($null, [new NumberPositive()]));
+        $notSet = "value";
+        unset($notSet);
+        $this->assertTrue(ValidationHelper::isValid($notSet, [new NumberPositive()]));
+
+        // NumberRange
+        $num = 1;
+        $this->assertTrue(ValidationHelper::isValid($num, [new NumberRange(0, 2)]));
+        $this->assertTrue(ValidationHelper::isValid($num, [new NumberRange(1, 1)]));
+        $this->assertTrue(ValidationHelper::isValid($num, [new NumberRange(null, 1)]));
+        $this->assertTrue(ValidationHelper::isValid($num, [new NumberRange(1, null)]));
+        $this->assertTrue(ValidationHelper::isValid($num, [new NumberRange()]));
+        $this->assertFalse(ValidationHelper::isValid($num, [new NumberRange(2, 3)]));
+        $this->assertFalse(ValidationHelper::isValid($num, [new NumberRange(null, 0)]));
+        $this->assertFalse(ValidationHelper::isValid($num, [new NumberRange(2, null)]));
+        $null = null;
+        $this->assertFalse(ValidationHelper::isValid($null, [new NumberRange(-1, 1)]));
+        $notSet = "value";
+        unset($notSet);
+        $this->assertFalse(ValidationHelper::isValid($notSet, [new NumberRange(-1, 1)]));
     }
 }
