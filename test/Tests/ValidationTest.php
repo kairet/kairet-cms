@@ -3,6 +3,11 @@ namespace KCMS\Tests;
 
 use KCMS\Validation\Rules\String\StringLength;
 use KCMS\Validation\Rules\String\StringNotEmpty;
+use KCMS\Validation\Rules\Type\IsBool;
+use KCMS\Validation\Rules\Type\IsClass;
+use KCMS\Validation\Rules\Type\IsFloat;
+use KCMS\Validation\Rules\Type\IsInt;
+use KCMS\Validation\Rules\Type\IsString;
 use KCMS\Validation\Rules\Value\HasValue;
 use KCMS\Validation\Rules\Value\NotEmpty;
 use KCMS\Validation\Rules\Value\NotNull;
@@ -62,5 +67,73 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(ValidationHelper::isValid($testString, [new StringLength(6)]));
         $this->assertFalse(ValidationHelper::isValid($testString, [new StringLength(0, 4)]));
         $this->assertFalse(ValidationHelper::isValid($testString, [new StringLength(10, 4)]));
+    }
+
+    public function testTypeValidation()
+    {
+        // IsBool
+        $bool = false;
+        $this->assertTrue(ValidationHelper::isValid($bool, [new IsBool()]));
+        $bool2 = true;
+        $this->assertTrue(ValidationHelper::isValid($bool2, [new IsBool()]));
+        $notABool = "value";
+        $this->assertFalse(ValidationHelper::isValid($notABool, [new IsBool()]));
+        $null = null;
+        $this->assertFalse(ValidationHelper::isValid($null, [new IsBool()]));
+        $notSet = "value";
+        unset($notSet);
+        $this->assertFalse(ValidationHelper::isValid($notSet, [new IsBool()]));
+
+        // IsFloat
+        $float = 1.0;
+        $this->assertTrue(ValidationHelper::isValid($float, [new IsFloat()]));
+        $int = 1;
+        $this->assertFalse(ValidationHelper::isValid($int, [new IsFloat()]));
+        $string = "1.0";
+        $this->assertFalse(ValidationHelper::isValid($string, [new IsFloat()]));
+        $null = null;
+        $this->assertFalse(ValidationHelper::isValid($null, [new IsFloat()]));
+        $notSet = "value";
+        unset($notSet);
+        $this->assertFalse(ValidationHelper::isValid($notSet, [new IsFloat()]));
+
+        // IsInt
+        $float = 1.0;
+        $this->assertFalse(ValidationHelper::isValid($float, [new IsInt()]));
+        $int = 1;
+        $this->assertTrue(ValidationHelper::isValid($int, [new IsInt()]));
+        $string = "1";
+        $this->assertFalse(ValidationHelper::isValid($string, [new IsInt()]));
+        $null = null;
+        $this->assertFalse(ValidationHelper::isValid($null, [new IsInt()]));
+        $notSet = "value";
+        unset($notSet);
+        $this->assertFalse(ValidationHelper::isValid($notSet, [new IsInt()]));
+
+        // IsString
+        $float = 1.0;
+        $this->assertFalse(ValidationHelper::isValid($float, [new IsString()]));
+        $int = 1;
+        $this->assertFalse(ValidationHelper::isValid($int, [new IsString()]));
+        $string = "1";
+        $this->assertTrue(ValidationHelper::isValid($string, [new IsString()]));
+        $null = null;
+        $this->assertFalse(ValidationHelper::isValid($null, [new IsString()]));
+        $notSet = "value";
+        unset($notSet);
+        $this->assertFalse(ValidationHelper::isValid($notSet, [new IsString()]));
+
+        // IsClass
+        $float = 1.0;
+        $this->assertFalse(ValidationHelper::isValid($float, [new IsClass('\DateTime')]));
+        $int = 1;
+        $this->assertFalse(ValidationHelper::isValid($int, [new IsClass('\DateTime')]));
+        $dateTime = new \DateTime();
+        $this->assertTrue(ValidationHelper::isValid($dateTime, [new IsClass('\DateTime')]));
+        $null = null;
+        $this->assertFalse(ValidationHelper::isValid($null, [new IsClass('\DateTime')]));
+        $notSet = new \DateTime();
+        unset($notSet);
+        $this->assertFalse(ValidationHelper::isValid($notSet, [new IsClass('\DateTime')]));
     }
 }
