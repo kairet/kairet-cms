@@ -1,7 +1,9 @@
 <?php
-namespace KCMS\Validation\Rules;
+namespace KCMS\Validation\Rules\Value;
 
-class NotUnset extends AbstractRule
+use KCMS\Validation\Rules\AbstractRule;
+
+class NotEmpty extends AbstractRule
 {
     /**
      * @param $value
@@ -9,7 +11,7 @@ class NotUnset extends AbstractRule
      */
     public function check(&$value)
     {
-        return isset($value);
+        return !empty($value);
     }
 
     /**
@@ -17,6 +19,6 @@ class NotUnset extends AbstractRule
      */
     public function getFailMessage()
     {
-        return "Value cannot be not set";
+        return "Value cannot be empty";
     }
 }

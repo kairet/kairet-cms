@@ -1,5 +1,5 @@
 <?php
-namespace KCMS\Validation\Rules;
+namespace KCMS\Validation\Rules\Value;
 
 use KCMS\Validation\ValidationHelper;
 
