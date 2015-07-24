@@ -3,13 +3,22 @@ namespace KCMS\Models;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use KCMS\Validation\RegexBank;
+use KCMS\Validation\Rules\String\StringNotEmpty;
+use KCMS\Validation\Rules\String\StringRegex;
+use KCMS\Validation\Rules\Type\IsString;
+use KCMS\Validation\ValidationException;
+use KCMS\Validation\ValidationHelper;
+use KCMS\Validation\ValidationInterface;
 
 /**
  * Class User
  * @package KCMS\Models
- * @Entity @Table(name="users")
+ * @Entity
+ * @Table(name="users")
+ * @HasLifecycleCallbacks
  */
-class User implements \JsonSerializable
+class User implements \JsonSerializable, ValidationInterface
 {
     /**
      * @Id @GeneratedValue @Column(type="integer")
@@ -275,5 +284,22 @@ class User implements \JsonSerializable
             "firstname" => $this->firstName,
             "lastname"  => $this->lastName
         ];
+    }
+
+    /**
+     * @throws ValidationException
+     * @return void
+     * @PrePersist @PreUpdate
+     */
+    public function validate()
+    {
+        ValidationHelper::validate($this->username, [new IsString(), new StringNotEmpty()], "Username");
+        ValidationHelper::validate($this->firstName, [new IsString(), new StringNotEmpty()], "Firstname");
+        ValidationHelper::validate($this->lastName, [new IsString(), new StringNotEmpty()], "Lastname");
+        ValidationHelper::validate(
+            $this->email,
+            [new IsString(), new StringNotEmpty(), new StringRegex(RegexBank::EMAIL)],
+            "Email"
+        );
     }
 }
