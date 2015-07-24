@@ -6,6 +6,7 @@ use KCMS\Validation\Rules\Number\NumberPositive;
 use KCMS\Validation\Rules\Number\NumberRange;
 use KCMS\Validation\Rules\String\StringLength;
 use KCMS\Validation\Rules\String\StringNotEmpty;
+use KCMS\Validation\Rules\String\StringRegex;
 use KCMS\Validation\Rules\Type\IsBool;
 use KCMS\Validation\Rules\Type\IsClass;
 use KCMS\Validation\Rules\Type\IsFloat;
@@ -70,6 +71,15 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(ValidationHelper::isValid($testString, [new StringLength(6)]));
         $this->assertFalse(ValidationHelper::isValid($testString, [new StringLength(0, 4)]));
         $this->assertFalse(ValidationHelper::isValid($testString, [new StringLength(10, 4)]));
+
+        // StringRegex
+        $mail = "test@test.com";
+        $mailPattern = '/^$|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/';
+        $this->assertTrue(ValidationHelper::isValid($mail, [new StringRegex($mailPattern)]));
+        $notAMail = "test@@test.com";
+        $notAMail2 = "test@com";
+        $this->assertFalse(ValidationHelper::isValid($notAMail, [new StringRegex($mailPattern)]));
+        $this->assertFalse(ValidationHelper::isValid($notAMail2, [new StringRegex($mailPattern)]));
     }
 
     public function testTypeValidation()
