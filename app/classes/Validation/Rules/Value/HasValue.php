@@ -1,6 +1,7 @@
 <?php
 namespace KCMS\Validation\Rules\Value;
 
+use KCMS\Validation\Rules\AbstractRule;
 use KCMS\Validation\ValidationHelper;
 
 class HasValue extends AbstractRule
