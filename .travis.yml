@@ -22,7 +22,11 @@ before_script:
   - ./vendor/bin/doctrine orm:schema-tool:create
 
 script:
-  - vendor/bin/phpunit --verbose --coverage-text
+  - mkdir -p build/logs
+  - vendor/bin/phpunit --verbose --coverage-text --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v
 
 before_deploy:
   - composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
