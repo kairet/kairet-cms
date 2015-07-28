@@ -15,10 +15,6 @@ cache:
 before_install:
   - mysql -e "create database IF NOT EXISTS kcms;" -uroot
 
-notifications:
-  webhooks:
-    - https://coveralls.io/webhook?repo_token=$COVERALLS_TOKEN
-
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
@@ -26,6 +22,7 @@ before_script:
   - ./vendor/bin/doctrine orm:schema-tool:create
 
 script:
+  - mkdir -p build/logs
   - vendor/bin/phpunit --verbose --coverage-text --coverage-clover build/logs/clover.xml
 
 after_script:
