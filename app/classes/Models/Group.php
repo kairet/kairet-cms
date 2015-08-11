@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @package KCMS\Models
  * @Entity @Table(name="groups")
  */
-class Group
+class Group implements \JsonSerializable
 {
     /**
      * @Id @GeneratedValue @Column(type="integer")
@@ -65,5 +65,20 @@ class Group
     public function removeUser(User $user)
     {
         $this->users->removeElement($user);
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id"        => $this->id,
+            "groupName" => $this->groupName
+        ];
     }
 }

@@ -280,9 +280,15 @@ class User implements \JsonSerializable, ValidationInterface
     public function jsonSerialize()
     {
         return [
-            "username"  => $this->username,
-            "firstname" => $this->firstName,
-            "lastname"  => $this->lastName
+            "username"    => $this->username,
+            "firstName"   => $this->firstName,
+            "lastName"    => $this->lastName,
+            "email"       => $this->email,
+            "createdDate" => $this->createdDate,
+            "editedDate"  => $this->editedDate,
+            "createdBy"   => $this->createdBy,
+            "editedBy"    => $this->editedBy,
+            "groups"      => $this->groups->toArray()
         ];
     }
 
