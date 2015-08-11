@@ -1,5 +1,5 @@
 <?php
-namespace KCMS\Api;
+namespace KCMS\ApiOld;
 
 class ApiHelper implements RequestHandlerInterface
 {

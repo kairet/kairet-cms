@@ -1,5 +1,5 @@
 <?php
-namespace KCMS\Api;
+namespace KCMS\ApiOld;
 
 abstract class AbstractApi implements RequestHandlerInterface
 {

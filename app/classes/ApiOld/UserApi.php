@@ -1,5 +1,5 @@
 <?php
-namespace KCMS\Api;
+namespace KCMS\ApiOld;
 
 use KCMS\Database\DbService;
 use KCMS\Models\User;

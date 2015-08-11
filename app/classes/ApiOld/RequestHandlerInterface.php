@@ -1,9 +1,9 @@
 <?php
-namespace KCMS\Api;
+namespace KCMS\ApiOld;
 
 /**
  * Interface RequestHandlerInterface
- * @package KCMS\Api
+ * @package KCMS\ApiOld
  */
 interface RequestHandlerInterface
 {
