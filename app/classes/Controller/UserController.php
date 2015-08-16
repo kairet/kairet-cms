@@ -3,7 +3,6 @@ namespace KCMS\Controller;
 
 use Doctrine\ORM\EntityManager;
 use KCMS\Models\User;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class UserController
@@ -30,35 +29,35 @@ class UserController
      */
     public function getAllUsers()
     {
-        return $this->entityManager->getRepository(User::class)->findAll();
+        return $this->entityManager->getRepository('KCMS\Models\User')->findAll();
     }
 
     /**
-     * @return JsonResponse
+     * @param User $user
+     * @return User
      */
-    public function getAllUsersJson()
+    public function getUser(User $user)
     {
-        return new JsonResponse($this->getAllUsers());
+        return $user;
     }
 
     /**
-     * @param $id
-     * @return null|User
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @param User $user
      */
-    public function getUser($id)
+    public function createUser(User $user)
     {
-        return $this->entityManager->find(User::class, $id);
+        $user->setCreatedDate(new \DateTime());
+        $user->setEditedDate(new \DateTime());
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 
     /**
-     * @param $id
-     * @return JsonResponse
+     * @param User $user
      */
-    public function getUserJson($id)
+    public function deleteUser(User $user)
     {
-        return new JsonResponse($found = $this->getUser($id), $found != null ? 200 : 404);
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
     }
 }
