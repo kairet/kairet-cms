@@ -95,6 +95,27 @@ class User implements \JsonSerializable, ValidationInterface
     }
 
     /**
+     * User-factory
+     * @param $username
+     * @param $firstName
+     * @param $lastName
+     * @param $email
+     * @param $password
+     * @return User
+     */
+    public static function createUser($username, $firstName, $lastName, $email, $password)
+    {
+        $user = new User();
+        $user->username = $username;
+        $user->firstName = $firstName;
+        $user->lastName = $lastName;
+        $user->email = $email;
+        $user->password = $password;
+
+        return $user;
+    }
+
+    /**
      * @return string
      */
     public function getUsername()
@@ -280,16 +301,21 @@ class User implements \JsonSerializable, ValidationInterface
     public function jsonSerialize()
     {
         return [
-            "username"  => $this->username,
-            "firstname" => $this->firstName,
-            "lastname"  => $this->lastName
+            "username"    => $this->username,
+            "firstName"   => $this->firstName,
+            "lastName"    => $this->lastName,
+            "email"       => $this->email,
+            "createdDate" => $this->createdDate,
+            "editedDate"  => $this->editedDate,
+            "createdBy"   => $this->createdBy,
+            "editedBy"    => $this->editedBy,
+            "groups"      => $this->groups->toArray()
         ];
     }
 
     /**
      * @throws ValidationException
      * @return void
-     * @PrePersist @PreUpdate
      */
     public function validate()
     {

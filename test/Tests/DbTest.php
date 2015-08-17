@@ -70,21 +70,4 @@ class DbTest extends \PHPUnit_Framework_TestCase
             $this->fail($e->getMessage());
         }
     }
-
-    /**
-     * @depends testAddNewUser
-     */
-    public function testUserInfoApi()
-    {
-        $args = [
-            "api"  => "user",
-            "type" => "userinfo",
-            "id"   => "1"
-        ];
-        $apiHelper = new ApiHelper();
-        $apiHelper->handleRequest($args);
-        /** @var User $user */
-        $user = $apiHelper->getResponse();
-        $this->assertEquals(DbTest::TEST_USER_NAME, $user->getUsername());
-    }
 }
