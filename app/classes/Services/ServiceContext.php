@@ -5,6 +5,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 use KCMS\Config;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Provides access to service instances using singletons
@@ -21,6 +23,11 @@ class ServiceContext
      * @var EntityManager
      */
     private static $entityManager = null;
+
+    /**
+     * @var ValidatorInterface
+     */
+    private static $validator;
 
     /**
      * Retrieves a new or existing PDO-Object for database connection using parameters in {@see Config}
@@ -75,5 +82,18 @@ class ServiceContext
         }
 
         return ServiceContext::$entityManager;
+    }
+
+    /**
+     * @return ValidatorInterface
+     */
+    public static function getValidator()
+    {
+        if (ServiceContext::$validator == null) {
+            ServiceContext::$validator = Validation::createValidatorBuilder()
+                ->enableAnnotationMapping()
+                ->getValidator();
+        }
+        return ServiceContext::$validator;
     }
 }
