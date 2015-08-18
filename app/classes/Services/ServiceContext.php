@@ -1,12 +1,16 @@
 <?php
-namespace KCMS\Database;
+namespace KCMS\Services;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 use KCMS\Config;
 
-class DbService
+/**
+ * Provides access to service instances using singletons
+ * @package KCMS\Services
+ */
+class ServiceContext
 {
     /**
      * @var \PDO
@@ -25,12 +29,12 @@ class DbService
      */
     public static function getPdoDatabase()
     {
-        if (DbService::$pdo == null) {
+        if (ServiceContext::$pdo == null) {
             try {
                 $dsn = Config::DB_DRIVER . ":host=" . Config::DB_HOST . ";port=" . Config::DB_PORT . ";dbname=" .
                        Config::DB_NAME;
 
-                DbService::$pdo = new \PDO(
+                ServiceContext::$pdo = new \PDO(
                     $dsn,
                     Config::DB_USER,
                     Config::DB_PASS
@@ -40,7 +44,7 @@ class DbService
             }
         }
 
-        return DbService::$pdo;
+        return ServiceContext::$pdo;
     }
 
     /**
@@ -50,10 +54,13 @@ class DbService
      */
     public static function getEntityManager()
     {
-        if (DbService::$entityManager == null) {
+        if (ServiceContext::$entityManager == null) {
             $config = Setup::createAnnotationMetadataConfiguration(
                 [__DIR__ . "/../Models"],
-                Config::DEV_MODE
+                Config::DEV_MODE,
+                null,
+                null,
+                false
             );
 
             $conn = [
@@ -64,9 +71,9 @@ class DbService
                 'password' => Config::DB_PASS
             ];
 
-            DbService::$entityManager = EntityManager::create($conn, $config);
+            ServiceContext::$entityManager = EntityManager::create($conn, $config);
         }
 
-        return DbService::$entityManager;
+        return ServiceContext::$entityManager;
     }
 }
