@@ -4,7 +4,9 @@ namespace KCMS\Models;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use KCMS\Validation\ValidationException;
 use KCMS\Validation\ValidationHelper;
+use KCMS\Validation\ValidationInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks
  */
-class User implements \JsonSerializable
+class User implements \JsonSerializable, ValidationInterface
 {
     /**
      * @ORM\Id @ORM\GeneratedValue @ORM\Column(type="integer")
@@ -320,10 +322,10 @@ class User implements \JsonSerializable
         ];
     }
 
-
     /**
+     * Validate an object, throw {@see ValidationException} if invalid
      * @ORM\PrePersist @ORM\PreUpdate
-     * @throws \KCMS\Validation\ValidationException
+     * @throws ValidationException
      */
     public function validate()
     {
