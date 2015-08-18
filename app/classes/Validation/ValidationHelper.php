@@ -3,6 +3,10 @@ namespace KCMS\Validation;
 
 use KCMS\Services\ServiceContext;
 
+/**
+ * Service class for validation
+ * @package KCMS\Validation
+ */
 class ValidationHelper
 {
     /**

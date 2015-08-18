@@ -4,7 +4,8 @@ namespace KCMS\Validation;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Indicates an object implements validation logic
+ * Indicates an object implements validation logic, also sets doctrine lifecycle-annotations (logic must be checked
+ * against on database insert or update)
  * @package KCMS\Validation
  */
 interface ValidationInterface

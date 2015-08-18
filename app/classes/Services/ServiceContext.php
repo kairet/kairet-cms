@@ -85,6 +85,7 @@ class ServiceContext
     }
 
     /**
+     * Retrieves a Symfony\Validator-instance
      * @return ValidatorInterface
      */
     public static function getValidator()
