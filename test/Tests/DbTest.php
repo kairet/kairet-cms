@@ -3,7 +3,6 @@ namespace KCMS\Tests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
-use KCMS\Api\ApiHelper;
 use KCMS\Models\User;
 use KCMS\Services\ServiceContext;
 
