@@ -3,9 +3,8 @@ namespace KCMS\Tests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
-use KCMS\Api\ApiHelper;
-use KCMS\Database\DbService;
 use KCMS\Models\User;
+use KCMS\Services\ServiceContext;
 
 class DbTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +18,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $em = null;
 
         try {
-            $em = DbService::getEntityManager();
+            $em = ServiceContext::getEntityManager();
         } catch (ORMException $e) {
             $this->fail($e->getMessage());
         }

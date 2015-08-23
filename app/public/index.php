@@ -9,7 +9,7 @@ $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 
 // Add services
 $app['entityManager'] = $app->share(function () {
-    return \KCMS\Database\DbService::getEntityManager();
+    return \KCMS\Services\ServiceContext::getEntityManager();
 });
 
 // Setup error handling
@@ -29,14 +29,14 @@ $app->error(function (\Exception $e, $code) {
 
 // Setup converter
 $app['user.converter'] = $app->share(function () use ($app) {
-    return new \KCMS\Converter\UserConverter($app['entityManager']);
+    return new \KCMS\Converter\UserConverter(\KCMS\Services\ServiceContext::getEntityManager());
 });
 
 // Setup controllers
 
 // Add user controller as a service
 $app['user.controller'] = $app->share(function () use ($app) {
-    return new \KCMS\Controller\UserController($app['entityManager']);
+    return new \KCMS\Controller\UserController(\KCMS\Services\ServiceContext::getEntityManager());
 });
 
 // Define routes for user controller

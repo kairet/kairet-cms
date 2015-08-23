@@ -1,50 +1,28 @@
 <?php
 namespace KCMS\Validation;
 
-use KCMS\Validation\Rules\AbstractRule;
+use KCMS\Services\ServiceContext;
 
 /**
- * Service class for validation using {@see AbstractRule}
+ * Service class for validation
  * @package KCMS\Validation
  */
 class ValidationHelper
 {
     /**
-     * Validate value using rules and retrieve boolean
-     * @param                $value
-     * @param AbstractRule[] $rules
-     * @param                $name
-     * @param                $outMessage
-     * @return bool
-     */
-    public static function isValid(&$value, array $rules, $name = "unknown field", &$outMessage = "no message")
-    {
-        try {
-            ValidationHelper::validate($value, $rules, $name);
-        } catch (ValidationException $e) {
-            if ($outMessage !== "no message") {
-                $outMessage = $e->getMessage();
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Validate value using rules and retrieve exception if invalid
-     * @param                $value
-     * @param AbstractRule[] $rules
-     * @param                $name
+     * @param $object
      * @throws ValidationException
      */
-    public static function validate(&$value, array $rules, $name = "unknown field")
+    public static function validate($object)
     {
-        foreach ($rules as $rule) {
-            if (!$rule->check($value)) {
-                throw new ValidationException("Validation failed for '{$name}': {$rule->getFailMessage()}");
+        $errors = ServiceContext::getValidator()->validate($object);
+        if (count($errors) > 0) {
+            $errorMsg = 'Validation failed:' . PHP_EOL;
+            foreach ($errors as $error) {
+                $errorMsg .= $error . PHP_EOL;
             }
+
+            throw new ValidationException('Validation failed:' . PHP_EOL . $errorMsg);
         }
     }
 }

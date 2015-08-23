@@ -3,85 +3,94 @@ namespace KCMS\Models;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use KCMS\Validation\RegexBank;
-use KCMS\Validation\Rules\String\StringNotEmpty;
-use KCMS\Validation\Rules\String\StringRegex;
-use KCMS\Validation\Rules\Type\IsString;
+use Doctrine\ORM\Mapping as ORM;
 use KCMS\Validation\ValidationException;
 use KCMS\Validation\ValidationHelper;
 use KCMS\Validation\ValidationInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User
  * @package KCMS\Models
- * @Entity
- * @Table(name="users")
- * @HasLifecycleCallbacks
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements \JsonSerializable, ValidationInterface
 {
     /**
-     * @Id @GeneratedValue @Column(type="integer")
+     * @ORM\Id @ORM\GeneratedValue @ORM\Column(type="integer")
      * @var int
      */
     protected $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      * @var string
      */
     protected $username;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      * @var string
      */
     protected $firstName;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      * @var string
      */
     protected $lastName;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Email
      * @var string
      */
     protected $email;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5)
      * @var string
      */
     protected $password;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime()
      * @var DateTime
      */
     protected $createdDate;
 
     /**
-     * @Column(type="datetime")
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime()
      * @var DateTime
      */
     protected $editedDate;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @var User
      */
     protected $createdBy;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @var User
      */
     protected $editedBy;
 
     /**
-     * @ManyToMany(targetEntity="Group", inversedBy="users", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users", cascade={"persist"})
      * @var Group[]
      */
     private $groups;
@@ -314,18 +323,12 @@ class User implements \JsonSerializable, ValidationInterface
     }
 
     /**
+     * Validate an object, throw {@see ValidationException} if invalid
+     * @ORM\PrePersist @ORM\PreUpdate
      * @throws ValidationException
-     * @return void
      */
     public function validate()
     {
-        ValidationHelper::validate($this->username, [new IsString(), new StringNotEmpty()], "Username");
-        ValidationHelper::validate($this->firstName, [new IsString(), new StringNotEmpty()], "Firstname");
-        ValidationHelper::validate($this->lastName, [new IsString(), new StringNotEmpty()], "Lastname");
-        ValidationHelper::validate(
-            $this->email,
-            [new IsString(), new StringNotEmpty(), new StringRegex(RegexBank::EMAIL)],
-            "Email"
-        );
+        ValidationHelper::validate($this);
     }
 }

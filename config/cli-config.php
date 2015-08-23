@@ -10,4 +10,4 @@ use KCMS\Config;
 
 require __DIR__ . "/../bootstrap.php";
 
-return ConsoleRunner::createHelperSet(\KCMS\Database\DbService::getEntityManager());
+return ConsoleRunner::createHelperSet(\KCMS\Services\ServiceContext::getEntityManager());

@@ -2,28 +2,30 @@
 namespace KCMS\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Group
  * @package KCMS\Models
- * @Entity @Table(name="groups")
+ * @ORM\Entity
+ * @ORM\Table(name="groups")
  */
 class Group implements \JsonSerializable
 {
     /**
-     * @Id @GeneratedValue @Column(type="integer")
+     * @ORM\Id @ORM\GeneratedValue @ORM\Column(type="integer")
      * @var int
      */
     protected $id;
 
     /**
-     * @Column(type="string")
+     * @ORM\Column(type="string")
      * @var string
      */
     protected $groupName;
 
     /**
-     * @ManyToMany(targetEntity="User", mappedBy="groups", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups", cascade={"persist"})
      */
     private $users;
 
