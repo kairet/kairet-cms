@@ -13,6 +13,7 @@ cache:
      - $HOME/.composer/cache
 
 before_install:
+  - chmod +x ./ci/*
   - mysql -e "create database IF NOT EXISTS kcms;" -uroot
 
 before_script:
@@ -28,8 +29,15 @@ script:
 after_script:
   - php vendor/bin/coveralls -v
 
+after_success:
+  - ./ci/setup_ssh.sh
+  - ./ci/deploy_dev.sh
+  - ./ci/deploy_stable.sh
+  - ./ci/clean_ssh.sh
+
 before_deploy:
   - composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
+  - rm deplkey.enc
   - zip -r kairet-cms-$TRAVIS_TAG.zip ./ -x *.git*
 
 deploy:
