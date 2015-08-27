@@ -24,8 +24,3 @@ updated in test/development/production environments.
 
 Documentation is currently mostly done in the project's [wiki](https://github.com/kairet/kairet-cms/wiki) or in code
 using PHPDoc.
-
-### License
-
-kairet-cms is licensed under GPL v3, see the included 
-[LICENSE](https://github.com/kairet/kairet-cms/blob/master/LICENSE)-file for more information.
