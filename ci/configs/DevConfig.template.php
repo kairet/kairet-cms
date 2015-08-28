@@ -16,5 +16,5 @@ class Config
     const DB_DRIVER = "pdo_mysql"; // pdo_pgsql, pdo_mysql, pdo_mssql
 
     /** Developer options */
-    const DEV_MODE = true; // false, true
+    const DEV_MODE = false; // false, true
 }
