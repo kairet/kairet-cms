@@ -12,7 +12,7 @@ if (\KCMS\Config::DEV_MODE === true) {
 
 // Create database schema
 if (PHP_OS == 'Linux') {
-    echo shell_exec('./vendor/bin/doctrine orm:schema-tool:create');
+    echo shell_exec('./vendor/bin/doctrine orm:schema-tool:update --force --dump-sql');
 } else {
-    echo shell_exec('vendor\bin\doctrine orm:schema-tool:create');
+    echo shell_exec('vendor\bin\doctrine orm:schema-tool:update --force --dump-sql');
 }
