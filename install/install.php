@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . './../bootstrap.php';
+require __DIR__ . '/../Config.php';
 
 // Install composer dependencies
 if (\KCMS\Config::DEV_MODE === true) {
