@@ -17,7 +17,7 @@ class ValidationException extends \Exception
      * @param Exception $previous [optional] The previous exception used for the exception chaining. Since 5.3.0
      * @since 5.1.0
      */
-    public function __construct($message = "", $code = 401, Exception $previous = null)
+    public function __construct($message = "", $code = 400, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
