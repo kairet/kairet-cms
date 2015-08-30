@@ -37,15 +37,15 @@ class UsersTest extends PHPUnit_Framework_TestCase
 
     public function testUserAdd()
     {
-        $response = $this->guzzleClient->put(
-            'users/{' .
-            '"username":"' . $this->testUser->getUsername() .
-            '","firstName":"' . $this->testUser->getFirstName() .
-            '","lastName":"' . $this->testUser->getLastName() .
-            '","email":"' . $this->testUser->getEmail()
-            . '","password":"' . $this->testUser->getPassword() .
-            '"}'
-        );
+        $response = $this->guzzleClient->post('users/', [
+            'body' => json_encode([
+                'username'  => $this->testUser->getUsername(),
+                'firstName' => $this->testUser->getFirstName(),
+                'lastName'  => $this->testUser->getLastName(),
+                'email'     => $this->testUser->getEmail(),
+                'password'  => $this->testUser->getPassword()
+            ])
+        ]);
 
         $this->assertEquals(201, $response->getStatusCode());
     }

@@ -1,6 +1,8 @@
 <?php
 namespace KCMS\Converter;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Class ConverterAdapter
  * @package KCMS\Converter
@@ -17,10 +19,11 @@ class ConverterAdapter extends AbstractConverter
     }
 
     /**
-     * @param $json
+     * @param         $null
+     * @param Request $request
      * @return object
      */
-    public function convertFromJson($json)
+    public function convertFromRequestBody($null, Request $request)
     {
         return null;
     }

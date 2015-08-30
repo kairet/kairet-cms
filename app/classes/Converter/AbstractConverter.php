@@ -2,6 +2,7 @@
 namespace KCMS\Converter;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AbstractConverter
@@ -30,8 +31,9 @@ abstract class AbstractConverter
     abstract public function convertFromId($id);
 
     /**
-     * @param $json
+     * @param         $null
+     * @param Request $request
      * @return object
      */
-    abstract public function convertFromJson($json);
+    abstract public function convertFromRequestBody($null, Request $request);
 }
