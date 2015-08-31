@@ -1,4 +1,12 @@
 <?php
+use KCMS\Config;
+use KCMS\Controller\UserController;
+use KCMS\Converter\UserConverter;
+use KCMS\Services\ServiceLocator;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validation;
+
 require __DIR__ . "/../../bootstrap.php";
 
 $app = new Silex\Application();
@@ -6,37 +14,46 @@ $app = new Silex\Application();
 // Setup silex configuration
 $app['debug'] = \KCMS\Config::DEV_MODE;
 $app->register(new Silex\Provider\ServiceControllerServiceProvider());
+$app->register(
+    new Silex\Provider\MonologServiceProvider(),
+    [
+        'monolog.logfile' => __DIR__ . '/../../' . Config::LOG_PATH,
+        'monolog.name'    => 'kcms',
+        'monolog.level'   => Config::LOG_LEVEL
+    ]
+);
 
-// Add services
-$app['entityManager'] = $app->share(function () {
-    return \KCMS\Services\ServiceContext::getEntityManager();
-});
+// Setup ServiceLocator
+ServiceLocator::registerValidator(Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
+ServiceLocator::registerMonolog($app['monolog']);
 
 // Setup error handling
 $app->error(function (\Exception $e, $code) {
+    // Log the error
+    ServiceLocator::getMonolog()->addError($e->getMessage());
+
     // TODO: Do not output internal errors in production environment
-    // TODO: Error-logging
     if ($e->getCode() !== 0) {
-        return new \Symfony\Component\HttpFoundation\Response(
+        return new Response(
             $e->getCode() . ': ' . $e->getMessage(),
             400, /* Ignored by silex */
             array('X-Status-Code' => $e->getCode())
         );
     } else {
-        return new \Symfony\Component\HttpFoundation\Response($code . ': ' . $e->getMessage());
+        return new Response($code . ': ' . $e->getMessage());
     }
 });
 
 // Setup converter
 $app['user.converter'] = $app->share(function () use ($app) {
-    return new \KCMS\Converter\UserConverter(\KCMS\Services\ServiceContext::getEntityManager());
+    return new UserConverter(ServiceLocator::getEntityManager());
 });
 
 // Setup controllers
 
 // Add user controller as a service
 $app['user.controller'] = $app->share(function () use ($app) {
-    return new \KCMS\Controller\UserController(\KCMS\Services\ServiceContext::getEntityManager());
+    return new UserController(ServiceLocator::getEntityManager());
 });
 
 // Define routes for user controller
@@ -56,21 +73,21 @@ $app->view(function ($controllerResult, \Symfony\Component\HttpFoundation\Reques
     switch ($request->getMethod()) {
         case 'GET':
             if ($controllerResult !== null) {
-                return new \Symfony\Component\HttpFoundation\JsonResponse($controllerResult);
+                return new JsonResponse($controllerResult);
             } else {
-                return new \Symfony\Component\HttpFoundation\Response();
+                return new Response();
             }
             break;
         case 'PUT':
         case 'POST':
-            return new \Symfony\Component\HttpFoundation\JsonResponse($controllerResult, $status = 201);
+            return new JsonResponse($controllerResult, $status = 201);
             break;
         case 'DELETE':
-            return new \Symfony\Component\HttpFoundation\Response('', $status = 204);
+            return new Response('', $status = 204);
             break;
     }
 
-    return new \Symfony\Component\HttpFoundation\Response();
+    return new Response();
 });
 
 // Start the application

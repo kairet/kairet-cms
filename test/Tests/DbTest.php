@@ -2,7 +2,7 @@
 namespace KCMS\Tests;
 
 use Doctrine\ORM\ORMException;
-use KCMS\Services\ServiceContext;
+use KCMS\Services\ServiceLocator;
 
 class DbTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $em = null;
 
         try {
-            $em = ServiceContext::getEntityManager();
+            $em = ServiceLocator::getEntityManager();
         } catch (ORMException $e) {
             $this->fail($e->getMessage());
         }
