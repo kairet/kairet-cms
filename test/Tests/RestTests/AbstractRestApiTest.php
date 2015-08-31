@@ -8,7 +8,7 @@ use KCMS\Config;
  * Class AbstractRestApiTest
  * @package KCMS\Tests
  */
-class AbstractRestApiTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractRestApiTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Client
