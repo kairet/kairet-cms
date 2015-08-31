@@ -310,6 +310,7 @@ class User implements \JsonSerializable, ValidationInterface
     public function jsonSerialize()
     {
         return [
+            'id'          => $this->id,
             "username"    => $this->username,
             "firstName"   => $this->firstName,
             "lastName"    => $this->lastName,

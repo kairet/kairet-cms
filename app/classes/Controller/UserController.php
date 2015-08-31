@@ -43,6 +43,7 @@ class UserController
 
     /**
      * @param User $user
+     * @return User
      */
     public function createUser(User $user)
     {
@@ -50,6 +51,8 @@ class UserController
         $user->setEditedDate(new \DateTime());
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        return $user;
     }
 
     /**

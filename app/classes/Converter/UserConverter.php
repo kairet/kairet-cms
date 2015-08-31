@@ -2,6 +2,7 @@
 namespace KCMS\Converter;
 
 use KCMS\Models\User;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
@@ -26,13 +27,13 @@ class UserConverter extends AbstractConverter
     }
 
     /**
-     * @param $json
+     * @param         $null
+     * @param Request $request
      * @return User
-     * @throws \InvalidArgumentException
      */
-    public function convertFromJson($json)
+    public function convertFromRequestBody($null, Request $request)
     {
-        $decoded = json_decode($json, true);
+        $decoded = json_decode($request->getContent(), true);
 
         $user = User::createUser(
             $decoded['username'] ?: null,

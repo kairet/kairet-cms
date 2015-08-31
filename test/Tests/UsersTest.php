@@ -35,27 +35,34 @@ class UsersTest extends PHPUnit_Framework_TestCase
         $this->testUser = $testUser;
     }
 
+    /**
+     * @return int
+     */
     public function testUserAdd()
     {
-        $response = $this->guzzleClient->put(
-            'users/{' .
-            '"username":"' . $this->testUser->getUsername() .
-            '","firstName":"' . $this->testUser->getFirstName() .
-            '","lastName":"' . $this->testUser->getLastName() .
-            '","email":"' . $this->testUser->getEmail()
-            . '","password":"' . $this->testUser->getPassword() .
-            '"}'
-        );
+        $response = $this->guzzleClient->post('users/', [
+            'body' => json_encode([
+                'username'  => $this->testUser->getUsername(),
+                'firstName' => $this->testUser->getFirstName(),
+                'lastName'  => $this->testUser->getLastName(),
+                'email'     => $this->testUser->getEmail(),
+                'password'  => $this->testUser->getPassword()
+            ])
+        ]);
 
         $this->assertEquals(201, $response->getStatusCode());
+        $user = json_decode($response->getBody(), true);
+
+        return $user['id'];
     }
 
     /**
      * @depends testUserAdd
+     * @param $userId
      */
-    public function testUserGet()
+    public function testUserGet($userId)
     {
-        $response = $this->guzzleClient->get('users/1');
+        $response = $this->guzzleClient->get('users/' . $userId);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -64,5 +71,20 @@ class UsersTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->testUser->getFirstName(), $user['firstName']);
         $this->assertEquals($this->testUser->getLastName(), $user['lastName']);
         $this->assertEquals($this->testUser->getEmail(), $user['email']);
+
+        return $userId;
+    }
+
+    /**
+     * @depends testUserGet
+     * @param $userId
+     */
+    public function testUserDelete($userId)
+    {
+        $response = $this->guzzleClient->delete('users/' . $userId);
+        $this->assertEquals(204, $response->getStatusCode());
+
+        $response2 = $this->guzzleClient->get('users/' . $userId);
+        $this->assertEquals(404, $response2->getStatusCode());
     }
 }

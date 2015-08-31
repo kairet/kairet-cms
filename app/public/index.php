@@ -44,7 +44,7 @@ $app['user.controller'] = $app->share(function () use ($app) {
 $user = $app['controllers_factory'];
 $user->get('/', 'user.controller:getAllUsers');
 $user->get('/{user}', 'user.controller:getUser')->convert('user', 'user.converter:convertFromId');
-$user->put('/{user}', 'user.controller:createUser')->convert('user', 'user.converter:convertFromJson');
+$user->post('/', 'user.controller:createUser')->convert('user', 'user.converter:convertFromRequestBody');
 $user->delete('/{user}', 'user.controller:deleteUser')->convert('user', 'user.converter:convertFromId');
 
 // Mount user controller
@@ -62,7 +62,8 @@ $app->view(function ($controllerResult, \Symfony\Component\HttpFoundation\Reques
             }
             break;
         case 'PUT':
-            return new \Symfony\Component\HttpFoundation\Response('', $status = 201);
+        case 'POST':
+            return new \Symfony\Component\HttpFoundation\JsonResponse($controllerResult, $status = 201);
             break;
         case 'DELETE':
             return new \Symfony\Component\HttpFoundation\Response('', $status = 204);
