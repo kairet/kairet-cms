@@ -17,4 +17,7 @@ class Config
 
     /** Developer options */
     const DEV_MODE = true; // false, true
+
+    /** Unit test configuration */
+    const UNIT_TEST_BASE_URL = "http://localhost:8080/";
 }

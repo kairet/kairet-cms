@@ -2,6 +2,7 @@
 namespace KCMS\Tests\RestTests;
 
 use GuzzleHttp\Client;
+use KCMS\Config;
 
 /**
  * Class AbstractRestApiTest
@@ -22,7 +23,7 @@ class AbstractRestApiTest extends \PHPUnit_Framework_TestCase
     {
         $this->guzzleClient = new Client(
             [
-                'base_url' => 'http://localhost:8080/',
+                'base_url' => Config::UNIT_TEST_BASE_URL,
                 'defaults' => ['exceptions' => false]
             ]
         );
