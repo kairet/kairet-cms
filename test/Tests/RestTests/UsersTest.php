@@ -1,17 +1,14 @@
 <?php
-namespace KCMS\Tests;
+namespace KCMS\Tests\RestTests;
 
-use GuzzleHttp\Client;
 use KCMS\Models\User;
-use PHPUnit_Framework_TestCase;
 
-class UsersTest extends PHPUnit_Framework_TestCase
+/**
+ * Class UsersTest
+ * @package KCMS\Tests
+ */
+class UsersTest extends AbstractRestApiTest
 {
-    /**
-     * @var Client
-     */
-    protected $guzzleClient;
-
     /**
      * @var User
      */
@@ -19,12 +16,7 @@ class UsersTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->guzzleClient = new Client(
-            [
-                'base_url' => 'http://localhost:8080/',
-                'defaults' => ['exceptions' => false]
-            ]
-        );
+        parent::setUp();
 
         $testUser = new User();
         $testUser->setUsername('test.user');
