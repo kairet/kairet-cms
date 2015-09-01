@@ -20,4 +20,8 @@ class Config
 
     /** Unit test configuration */
     const UNIT_TEST_BASE_URL = "http://localhost:8080/";
+
+    /** Logging */
+    const LOG_PATH   = '/logs/log.log';
+    const LOG_LEVEL  = 'INFO'; // DEBUG, INFO, WARNING, ERROR
 }

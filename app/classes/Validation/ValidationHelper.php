@@ -1,7 +1,7 @@
 <?php
 namespace KCMS\Validation;
 
-use KCMS\Services\ServiceContext;
+use KCMS\Services\ServiceLocator;
 
 /**
  * Service class for validation
@@ -15,7 +15,7 @@ class ValidationHelper
      */
     public static function validate($object)
     {
-        $errors = ServiceContext::getValidator()->validate($object);
+        $errors = ServiceLocator::getValidator()->validate($object);
         if (count($errors) > 0) {
             $errorMsg = 'Validation failed:' . PHP_EOL;
             foreach ($errors as $error) {
