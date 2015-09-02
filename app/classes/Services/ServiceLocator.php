@@ -69,7 +69,7 @@ class ServiceLocator
                     'password' => Config::DB_PASS
                 ],
                 Setup::createAnnotationMetadataConfiguration(
-                    [__DIR__ . "/../Models"],
+                    [__DIR__ . '/../Models'],
                     Config::DEV_MODE,
                     null,
                     null,

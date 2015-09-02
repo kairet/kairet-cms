@@ -8,6 +8,6 @@
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use KCMS\Config;
 
-require __DIR__ . "/../bootstrap.php";
+require __DIR__ . '/../bootstrap.php';
 
 return ConsoleRunner::createHelperSet(\KCMS\Services\ServiceLocator::getEntityManager());

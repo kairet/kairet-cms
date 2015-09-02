@@ -79,8 +79,8 @@ class Group implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            "id"        => $this->id,
-            "groupName" => $this->groupName
+            'id'        => $this->id,
+            'groupName' => $this->groupName
         ];
     }
 }
