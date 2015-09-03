@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validation;
 
-require __DIR__ . "/../../bootstrap.php";
+require __DIR__ . '/../../bootstrap.php';
 
 $app = new Silex\Application();
 

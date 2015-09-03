@@ -9,10 +9,10 @@ function includeIfExists($file)
     return null;
 }
 
-if (!$loader = includeIfExists(__DIR__ . "/../vendor/autoload.php")) {
-    die("Composer is not setup correctly");
+if (!$loader = includeIfExists(__DIR__ . '/../vendor/autoload.php')) {
+    die('Composer is not setup correctly');
 }
-$loader->add("Tests", __DIR__);
+$loader->add('Tests', __DIR__);
 
 // This is necessary as validation using annotations conflicts with doctrine-orm annotations otherwise...
 AnnotationRegistry::registerLoader(function ($class) use ($loader) {

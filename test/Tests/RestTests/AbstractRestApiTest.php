@@ -5,7 +5,8 @@ use GuzzleHttp\Client;
 use KCMS\Config;
 
 /**
- * Class AbstractRestApiTest
+ * Abstract base class for rest-api-tests using Guzzle-{@see Client}
+ *
  * @package KCMS\Tests
  */
 abstract class AbstractRestApiTest extends \PHPUnit_Framework_TestCase
@@ -15,10 +16,6 @@ abstract class AbstractRestApiTest extends \PHPUnit_Framework_TestCase
      */
     protected $guzzleClient;
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     */
     protected function setUp()
     {
         $this->guzzleClient = new Client(

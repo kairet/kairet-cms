@@ -7,12 +7,13 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * Class UserConverter
+ *
  * @package KCMS\Converter
  */
 class UserConverter extends AbstractConverter
 {
     /**
-     * @param $id
+     * @inheritDoc
      * @return User
      * @throws ResourceNotFoundException
      */
@@ -27,8 +28,7 @@ class UserConverter extends AbstractConverter
     }
 
     /**
-     * @param         $null
-     * @param Request $request
+     * @inheritDoc
      * @return User
      */
     public function convertFromRequestBody($null, Request $request)

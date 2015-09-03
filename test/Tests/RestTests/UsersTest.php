@@ -4,7 +4,8 @@ namespace KCMS\Tests\RestTests;
 use KCMS\Models\User;
 
 /**
- * Class UsersTest
+ * Test class for the user-api
+ *
  * @package KCMS\Tests
  */
 class UsersTest extends AbstractRestApiTest
@@ -50,6 +51,7 @@ class UsersTest extends AbstractRestApiTest
 
     /**
      * @depends testUserAdd
+     *
      * @param $userId
      */
     public function testUserGet($userId)
@@ -69,6 +71,7 @@ class UsersTest extends AbstractRestApiTest
 
     /**
      * @depends testUserGet
+     *
      * @param $userId
      */
     public function testUserDelete($userId)

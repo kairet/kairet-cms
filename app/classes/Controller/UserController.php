@@ -6,6 +6,7 @@ use KCMS\Models\User;
 
 /**
  * Class UserController
+ *
  * @package KCMS\Controller
  */
 class UserController
@@ -17,6 +18,7 @@ class UserController
 
     /**
      * UserController constructor.
+     *
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
@@ -34,6 +36,7 @@ class UserController
 
     /**
      * @param User $user
+     *
      * @return User
      */
     public function getUser(User $user)
@@ -43,6 +46,7 @@ class UserController
 
     /**
      * @param User $user
+     *
      * @return User
      */
     public function createUser(User $user)
