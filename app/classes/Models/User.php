@@ -4,9 +4,7 @@ namespace KCMS\Models;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use KCMS\Validation\ValidationException;
-use KCMS\Validation\ValidationHelper;
-use KCMS\Validation\ValidationInterface;
+use KCMS\Validation\ValidatedModel;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks
  */
-class User implements \JsonSerializable, ValidationInterface
+class User extends ValidatedModel implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -319,14 +317,5 @@ class User implements \JsonSerializable, ValidationInterface
             'editedBy'    => $this->editedBy,
             'groups'      => $this->groups->toArray()
         ];
-    }
-
-    /**
-     * @inheritDoc
-     * @ORM\PrePersist @ORM\PreUpdate
-     */
-    public function validate()
-    {
-        ValidationHelper::validate($this);
     }
 }
