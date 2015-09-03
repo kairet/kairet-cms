@@ -5,12 +5,17 @@ use KCMS\Services\ServiceLocator;
 
 /**
  * Service class for validation
+ *
  * @package KCMS\Validation
  */
 class ValidationHelper
 {
     /**
-     * @param $object
+     * Validates an object using the registered {@see Symfony\Component\Validator\Validator\ValidatorInterface} in
+     * {@see ServiceLocator}
+     *
+     * @param object $object The object to be validated
+     *
      * @throws ValidationException
      */
     public static function validate($object)

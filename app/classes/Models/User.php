@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User
+ *
  * @package KCMS\Models
  * @ORM\Entity
  * @ORM\Table(name="users")
@@ -19,7 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements \JsonSerializable, ValidationInterface
 {
     /**
-     * @ORM\Id @ORM\GeneratedValue @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      * @var int
      */
     protected $id;
@@ -105,11 +108,13 @@ class User implements \JsonSerializable, ValidationInterface
 
     /**
      * User-factory
-     * @param $username
-     * @param $firstName
-     * @param $lastName
-     * @param $email
-     * @param $password
+     *
+     * @param string $username
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $email
+     * @param string $password
+     *
      * @return User
      */
     public static function createUser($username, $firstName, $lastName, $email, $password)
@@ -300,13 +305,6 @@ class User implements \JsonSerializable, ValidationInterface
         $this->groups->removeElement($group);
     }
 
-    /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     */
     public function jsonSerialize()
     {
         return [
@@ -324,9 +322,8 @@ class User implements \JsonSerializable, ValidationInterface
     }
 
     /**
-     * Validate an object, throw {@see ValidationException} if invalid
+     * @inheritDoc
      * @ORM\PrePersist @ORM\PreUpdate
-     * @throws ValidationException
      */
     public function validate()
     {

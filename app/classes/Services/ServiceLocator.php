@@ -8,7 +8,8 @@ use Monolog\Logger;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class ServiceLocator
+ * Class to locate and register services in a static way from any context
+ *
  * @package KCMS\Services
  */
 class ServiceLocator
@@ -92,7 +93,9 @@ class ServiceLocator
 
     /**
      * Returns the referenced variable if it is not null, throws a {@see ServiceNotRegisteredException} otherwise
+     *
      * @param $var
+     *
      * @return mixed
      * @throws ServiceNotRegisteredException
      */

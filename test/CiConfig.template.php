@@ -3,6 +3,7 @@ namespace KCMS;
 
 /**
  * Class Config
+ *
  * @package KCMS
  */
 class Config

@@ -4,6 +4,11 @@ namespace KCMS\Tests;
 use Doctrine\ORM\ORMException;
 use KCMS\Services\ServiceLocator;
 
+/**
+ * Class DbTest
+ *
+ * @package KCMS\Tests
+ */
 class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
