@@ -5,6 +5,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use KCMS\Validation\ValidatedModel;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks
  */
-class User extends ValidatedModel implements \JsonSerializable
+class User extends ValidatedModel implements \JsonSerializable, UserInterface
 {
     /**
      * @ORM\Id
@@ -328,5 +329,19 @@ class User extends ValidatedModel implements \JsonSerializable
             'editedBy'    => $this->editedBy,
             'groups'      => $this->groups->toArray()
         ];
+    }
+
+    public function getRoles()
+    {
+        return $this->groups;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }
