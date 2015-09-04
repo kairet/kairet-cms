@@ -3,6 +3,7 @@ namespace KCMS\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Group
@@ -15,20 +16,23 @@ class Group implements \JsonSerializable
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="name", type="string", length=20)
+     * @Assert\Length(max=20)
+     * @Assert\Regex(pattern="/[A-Z]+/")
      * @var string
      */
-    protected $groupName;
+    protected $name;
+
+    /**
+     * @ORM\Column(name="description", type="string", length=255)
+     * @Assert\Length(max=255)
+     * @var string
+     */
+    protected $description;
 
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="groups", cascade={"persist"})
+     * @var User[]
      */
     private $users;
 
@@ -43,17 +47,41 @@ class Group implements \JsonSerializable
     /**
      * @return string
      */
-    public function getGroupName()
+    public function getName()
     {
-        return $this->groupName;
+        return $this->name;
     }
 
     /**
-     * @param string $groupName
+     * @param string $name
      */
-    public function setGroupName($groupName)
+    public function setName($name)
     {
-        $this->groupName = $groupName;
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return User[]
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 
     /**
@@ -75,8 +103,8 @@ class Group implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'        => $this->id,
-            'groupName' => $this->groupName
+            'name'        => $this->name,
+            'description' => $this->description
         ];
     }
 }

@@ -20,50 +20,54 @@ class User extends ValidatedModel implements \JsonSerializable
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @var int
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="username", type="string", length=32, unique=true, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(max=32)
      * @var string
      */
     protected $username;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="first_name", type="string", length=32, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(max=32)
      * @var string
      */
     protected $firstName;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="last_name", type="string", length=32, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(max=32)
      * @var string
      */
     protected $lastName;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="email", type="string", length=40, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Email
+     * @Assert\Length(max=40)
      * @var string
      */
     protected $email;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="password", type="string", length=40, nullable=false))
      * @Assert\NotBlank()
-     * @Assert\Length(min=5)
+     * @Assert\Length(min=5, max=40)
      * @var string
      */
     protected $password;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="created_date", type="datetime", nullable=false)
      * @Assert\NotBlank()
      * @Assert\DateTime()
      * @var DateTime
@@ -71,7 +75,7 @@ class User extends ValidatedModel implements \JsonSerializable
     protected $createdDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="edited_date", type="datetime", nullable=false)
      * @Assert\NotBlank()
      * @Assert\DateTime()
      * @var DateTime
@@ -80,18 +84,25 @@ class User extends ValidatedModel implements \JsonSerializable
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      * @var User
      */
     protected $createdBy;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="edited_by", referencedColumnName="id")
      * @var User
      */
     protected $editedBy;
 
     /**
      * @ORM\ManyToMany(targetEntity="Group", inversedBy="users", cascade={"persist"})
+     * @ORM\JoinTable(
+     *   name="users_groups",
+     *   joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="group_name", referencedColumnName="name")}
+     * )
      * @var Group[]
      */
     private $groups;
