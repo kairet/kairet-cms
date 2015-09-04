@@ -3,6 +3,7 @@ namespace KCMS\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="groups")
  */
-class Group implements \JsonSerializable
+class Group implements \JsonSerializable, RoleInterface
 {
     /**
      * @ORM\Id
@@ -106,5 +107,10 @@ class Group implements \JsonSerializable
             'name'        => $this->name,
             'description' => $this->description
         ];
+    }
+
+    public function getRole()
+    {
+        return $this->name;
     }
 }
