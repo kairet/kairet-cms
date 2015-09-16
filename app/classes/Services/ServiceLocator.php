@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use KCMS\Config;
 use Monolog\Logger;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -30,6 +31,11 @@ class ServiceLocator
     private static $validator;
 
     /**
+     * @var AuthorizationCheckerInterface
+     */
+    private static $authChecker;
+
+    /**
      * @param Logger $logger
      */
     public static function registerMonolog(Logger $logger)
@@ -43,6 +49,11 @@ class ServiceLocator
     public static function registerValidator(ValidatorInterface $validator)
     {
         ServiceLocator::$validator = $validator;
+    }
+
+    public static function registerAuthChecker(AuthorizationCheckerInterface $authChecker)
+    {
+        ServiceLocator::$authChecker = $authChecker;
     }
 
     /**
@@ -89,6 +100,15 @@ class ServiceLocator
     public static function getValidator()
     {
         return ServiceLocator::checkAndReturn(ServiceLocator::$validator);
+    }
+
+    /**
+     * @return AuthorizationCheckerInterface
+     * @throws ServiceNotRegisteredException
+     */
+    public static function getAuthChecker()
+    {
+        return ServiceLocator::checkAndReturn(ServiceLocator::$authChecker);
     }
 
     /**

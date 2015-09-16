@@ -22,10 +22,33 @@ $app->register(
         'monolog.level'   => Config::LOG_LEVEL
     ]
 );
+$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(
+    new Silex\Provider\SecurityServiceProvider(),
+    [
+        'security.firewalls' => [
+            'default' => array(
+                'anonymous' => true,
+                'pattern' => '^/.*$',
+                'form' => array('login_path' => '/login', 'check_path' => '/test/login_check'),
+                'logout' => array('logout_path' => '/user/logout'),
+                'users' => $app->share(function () use ($app) {
+                    // Specific class App\User\UserProvider is described below
+                    return new \KCMS\Services\UserProvider(ServiceLocator::getEntityManager());
+                }))
+            ],
+        'security.access_rules' => array(
+            array('^/user/secret$', 'ROLE_ADMIN'),
+        )
+    ]
+);
+
+$app->boot();
 
 // Setup ServiceLocator
 ServiceLocator::registerValidator(Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator());
 ServiceLocator::registerMonolog($app['monolog']);
+ServiceLocator::registerAuthChecker($app['security.authorization_checker']);
 
 // Setup error handling
 $app->error(function (\Exception $e, $code) {
