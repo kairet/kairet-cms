@@ -7,3 +7,10 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.param_converter.user_converter:
+        class: AppBundle\Converter\UserConverter
+        tags:
+            - { name: request.param_converter, converter: user_converter }
+    user_manager:
+        class: AppBundle\Manager\UserManager
+        arguments: ["@doctrine.orm.default_entity_manager", "@validator"]
